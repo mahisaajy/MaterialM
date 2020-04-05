@@ -1,4 +1,4 @@
-package com.materialm;
+package com.metligo.materialm;
 
 import android.app.Application;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package com.materialm;
+package com.metligo.materialm;
 
 import com.facebook.react.ReactActivity;
 
