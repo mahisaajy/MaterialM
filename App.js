@@ -27,11 +27,25 @@ import {
 } from 'react-native/Libraries/NewAppScreen';
 
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { Provider as PaperProvider, Appbar } from 'react-native-paper';
+import { DefaultTheme, Provider as PaperProvider, Appbar } from 'react-native-paper';
+
+import ButtonBasicScreen from './src/screens/Buttons/ButtonBasicScreen';
+import FABScreen from './src/screens/Buttons/FABScreen';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
+
+const theme = {
+  ...DefaultTheme,
+  roundness: 2,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: '#3F51B5',
+    accent: '#f1c40f',
+  },
+};
+
 
 function HomeScreen({navigation}) {
 
@@ -61,6 +75,8 @@ function HomeScreen({navigation}) {
         title="Go to details"
         onPress={() => navigation.navigate('Details')}
       />
+      <Button title="Button Basic" onPress={() => navigation.navigate('ButtonBasic')} />
+      <Button title="FAB" onPress={() => navigation.navigate('FAB')} />
     </View>
     </>
   );
@@ -84,6 +100,8 @@ function HomeScreenStack() {
       <Stack.Screen name="Home" component={HomeScreen} options={{
         //header: null,
       }} />
+      <Stack.Screen name="ButtonBasic" component={ButtonBasicScreen} />
+      <Stack.Screen name="FAB" component={FABScreen} />
     </Stack.Navigator>
   );
 }
@@ -94,11 +112,11 @@ const Stack = createStackNavigator();
 
 const App: () => React$Node = () => {
   return (
-    <PaperProvider>
+    <PaperProvider theme={theme}>
       <NavigationContainer>
         <StatusBar barStyle="dark-content" />
         <Drawer.Navigator>
-          <Drawer.Screen name="HomeDrawer" component={HomeScreen} options={{ 
+          <Drawer.Screen name="HomeDrawer" component={HomeScreenStack} options={{ 
             title: 'Overview',
           }} 
           />
