@@ -14,6 +14,8 @@ import {
   View,
   Text,
   StatusBar,
+  Button,
+  Alert,
 } from 'react-native';
 
 import {
@@ -24,51 +26,129 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 
-const App: () => React$Node = () => {
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Provider as PaperProvider, Appbar } from 'react-native-paper';
+
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+
+function HomeScreen({navigation}) {
+
+  _goBack = () => console.log('Went back');
+
+  _handleSearch = () => console.log('Searching');
+
+  _handleMore = () => console.log('Shown more');
+
   return (
     <>
-      <StatusBar barStyle="dark-content" />
-      <SafeAreaView>
-        <ScrollView
-          contentInsetAdjustmentBehavior="automatic"
-          style={styles.scrollView}>
-          <Header />
-          {global.HermesInternal == null ? null : (
-            <View style={styles.engine}>
-              <Text style={styles.footer}>Engine: Hermes</Text>
-            </View>
-          )}
-          <View style={styles.body}>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Step One</Text>
-              <Text style={styles.sectionDescription}>
-                Edit <Text style={styles.highlight}>App.js</Text> to change this
-                screen and then come back to see your edits.
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+    <Appbar.Header>
+        <Appbar.Action
+          icon="menu"
+          onPress={() => navigation.openDrawer()}
+        />
+        <Appbar.Content
+          title="Material M"
+          //subtitle="Subtitle"
+        />
+        <Appbar.Action icon="magnify"/>
+        <Appbar.Action icon="dots-vertical"/>
+      </Appbar.Header>
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Home Screen</Text>
+      <Button
+        title="Go to details"
+        onPress={() => navigation.navigate('Details')}
+      />
+    </View>
     </>
+  );
+}
+
+function DetailsScreen({navigation}) {
+  return (
+    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+      <Text>Details Screen</Text>
+      <Button
+        title="Back to home"
+        onPress={() => navigation.navigate('HomeDrawer')}
+      />
+    </View>
+  );
+}
+
+function HomeScreenStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Home" component={HomeScreen} options={{
+        //header: null,
+      }} />
+    </Stack.Navigator>
+  );
+}
+
+const Drawer = createDrawerNavigator();
+const Stack = createStackNavigator();
+
+
+const App: () => React$Node = () => {
+  return (
+    <PaperProvider>
+      <NavigationContainer>
+        <StatusBar barStyle="dark-content" />
+        <Drawer.Navigator>
+          <Drawer.Screen name="HomeDrawer" component={HomeScreen} options={{ 
+            title: 'Overview',
+          }} 
+          />
+          <Drawer.Screen name="Details" component={DetailsScreen} />
+          {/* <Drawer.Screen name="Root" component={Root} /> */}
+        </Drawer.Navigator>
+
+        {/* <StatusBar barStyle="dark-content" />
+        <SafeAreaView>
+          <ScrollView
+            contentInsetAdjustmentBehavior="automatic"
+            style={styles.scrollView}>
+            <Header />
+            {global.HermesInternal == null ? null : (
+              <View style={styles.engine}>
+                <Text style={styles.footer}>Engine: Hermes</Text>
+              </View>
+            )}
+            <View style={styles.body}>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Step One</Text>
+                <Text style={styles.sectionDescription}>
+                  Edit <Text style={styles.highlight}>App.js</Text> to change this
+                  screen and then come back to see your edits.
+                </Text>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>See Your Changes</Text>
+                <Text style={styles.sectionDescription}>
+                  <ReloadInstructions />
+                </Text>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Debug</Text>
+                <Text style={styles.sectionDescription}>
+                  <DebugInstructions />
+                </Text>
+              </View>
+              <View style={styles.sectionContainer}>
+                <Text style={styles.sectionTitle}>Learn More</Text>
+                <Text style={styles.sectionDescription}>
+                  Read the docs to discover what to do next:
+                </Text>
+              </View>
+              <LearnMoreLinks />
+            </View>
+          </ScrollView>
+        </SafeAreaView> */}
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 
